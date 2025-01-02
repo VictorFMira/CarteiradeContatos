@@ -16,33 +16,33 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Contato[0].Nome)
+                @Html.DisplayNameFor(model => model.Contatos[0].Nome)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Contato[0].Telefone)
+                @Html.DisplayNameFor(model => model.Contatos[0].Telefones)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Contato[0].Email)
+                @Html.DisplayNameFor(model => model.Contatos[0].Email)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
 
-        @foreach (var item in Model.Contato)
+        @foreach (var item in Model.Contatos)
         {
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Nome)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Telefone)
+                    @Html.DisplayFor(modelItem => item.Telefones)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Email)
                 </td>
                 <td>
-                    <a asp-action="./Save" asp-all-route-data="@item.Id">Salvar</a> |
+                    @*<a asp-action="./Save" asp-all-route-data="@item.Id">Salvar</a> |*@
                     <a asp-page="./Edit" asp-route-id="@item.Id">Editar</a> |
                     <a asp-page="./Delete" asp-route-id="@item.Id">Excluir</a>
                 </td>

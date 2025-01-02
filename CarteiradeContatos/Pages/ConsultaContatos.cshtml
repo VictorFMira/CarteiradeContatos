@@ -1,0 +1,18 @@
+﻿@page
+@model CarteiradeContatos.Pages.Pages_ConsultaContatos
+@{
+
+<form>
+    <input type="text" placeholder="Pesquisar contato" />
+    <button type="submit">Buscar</button>
+</form>
+
+<ul>
+    @foreach (var contato in Model)
+    {
+        <li>
+            @contato.Nome - @contato.Email
+        </li>
+    }
+</ul>
+}
