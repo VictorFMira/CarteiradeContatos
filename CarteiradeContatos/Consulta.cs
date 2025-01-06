@@ -7,9 +7,9 @@ namespace CarteiradeContatos {
     {
         public IList<Contato> Contatos { get; set; }
 
-        private readonly MyDbContext _context;
+        private readonly AppDbContext _context;
 
-        public Consulta(MyDbContext context)
+        public Consulta(AppDbContext context)
         {
             _context = context;
         }

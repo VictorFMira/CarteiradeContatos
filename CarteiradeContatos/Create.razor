@@ -1,0 +1,45 @@
+﻿@page "/create"
+@inject AppDbContext DbContext
+@using CarteiradeContatos
+
+<h3>Criar Novo Contato</h3>
+
+<EditForm Model="@Contato" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="nome">Nome</label>
+        <InputText id="nome" class="form-control" @bind-Value="Contato.Nome" />
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <InputText id="email" class="form-control" @bind-Value="Contato.Email" />
+    </div>
+    <div class="form-group">
+        <label for="telefone">Telefone</label>
+        <InputText id="telefone" class="form-control" @bind-Value="Contato.Telefone" />
+    </div>
+    <button type="submit" class="btn btn-primary">Salvar</button>
+</EditForm>
+
+@code {
+    private Contato Contato = new Contato();
+
+    private async Task HandleValidSubmit()
+    {
+        try
+        {
+            DbContext.Contatos.Add(Contato);
+            await DbContext.SaveChangesAsync();
+            // Redirecionar ou exibir mensagem de sucesso
+            //NavigationManager.NavigateTo("/contatos");
+        }
+        catch (Exception ex)
+        {
+            // Logar o erro e exibir uma mensagem amigável ao usuário
+            Console.Error.WriteLine(ex);
+            // ...
+        }
+    }
+}

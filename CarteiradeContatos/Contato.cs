@@ -1,17 +1,17 @@
-﻿namespace CarteiradeContatos
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace CarteiradeContatos
 {
     public class Contato : EntityBase
     {
+        [Required]
         public required string Nome { get; set; }
-        public List<string> Telefones { get; set; } = new();
+
+        [Required]
+        public required string Telefone { get; set; }
+
+        [Required]
         public string? Email { get; set; }
-        public DateTime? DataNascimento { get; set; }
-        public Endereco Endereco { get; set; }
     }
 
-    public class Endereco
-    {
-        public string Logradouro { get; set; }
-        public string Numero { get; set; }
-    }
 }
