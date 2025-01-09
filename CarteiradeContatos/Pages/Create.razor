@@ -1,6 +1,7 @@
 ﻿@page "/create"
 @inject AppDbContext DbContext
 @using CarteiradeContatos
+@using Microsoft.AspNetCore.Components.Forms
 
 <h3>Criar Novo Contato</h3>
 
@@ -24,7 +25,11 @@
 </EditForm>
 
 @code {
-    private Contato Contato = new Contato();
+    private Contato Contato = new Contato
+        {
+            Nome = string.Empty,
+            Telefone = string.Empty
+        };
 
     private async Task HandleValidSubmit()
     {
