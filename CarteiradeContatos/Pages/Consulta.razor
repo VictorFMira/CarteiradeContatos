@@ -1,0 +1,42 @@
+﻿@page "/consulta"
+@inject ContatoService ContatoService
+
+@code {
+    private List<Contato> Contatos = new List<Contato>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Contatos = await ContatoService.GetContatosAsync();
+    }
+}
+
+<h1>Contatos</h1>
+
+<p>
+    <NavLink href="/create">Criar Novo Contato</NavLink>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Telefone</th>
+            <th>Email</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Contatos)
+        {
+            <tr>
+                <td>@item.Nome</td>
+                <td>@item.Telefone</td>
+                <td>@item.Email</td>
+                <td>
+                    <NavLink href="/edit/@item.Id">Editar</NavLink> |
+                    <NavLink href="/delete/@item.Id">Excluir</NavLink>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

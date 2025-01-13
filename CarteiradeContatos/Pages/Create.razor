@@ -1,9 +1,9 @@
 ﻿@page "/create"
-@inject AppDbContext DbContext
+@inject ContatoService ContatoService
 @using CarteiradeContatos
 @using Microsoft.AspNetCore.Components.Forms
 
-<h3>Criar Novo Contato</h3>
+<h3>Contatos Salvos</h3>
 
 <EditForm Model="@Contato" OnValidSubmit="HandleValidSubmit">
     <DataAnnotationsValidator />
@@ -21,8 +21,10 @@
         <label for="telefone">Telefone</label>
         <InputText id="telefone" class="form-control" @bind-Value="Contato.Telefone" />
     </div>
+    <p></p>
     <button type="submit" class="btn btn-primary">Salvar</button>
 </EditForm>
+<Consulta />
 
 @code {
     private Contato Contato = new Contato
@@ -35,16 +37,13 @@
     {
         try
         {
-            DbContext.Contatos.Add(Contato);
-            await DbContext.SaveChangesAsync();
-            // Redirecionar ou exibir mensagem de sucesso
-            //NavigationManager.NavigateTo("/contatos");
+            await ContatoService.AddContatoAsync(Contato);
+            Contato = new Contato(); // Limpar o formulário após salvar
         }
         catch (Exception ex)
         {
             // Logar o erro e exibir uma mensagem amigável ao usuário
             Console.Error.WriteLine(ex);
-            // ...
         }
     }
 }
