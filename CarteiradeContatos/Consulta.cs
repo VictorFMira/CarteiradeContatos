@@ -2,7 +2,8 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
-namespace CarteiradeContatos { 
+namespace CarteiradeContatos 
+{ 
     public class Consulta : PageModel
     {
         public IList<Contato> Contatos { get; set; }

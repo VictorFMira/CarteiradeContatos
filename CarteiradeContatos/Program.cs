@@ -8,6 +8,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddRazorPages();
 builder.Services.AddAuthorization();
+builder.Services.AddSignalR();
+builder.Services.AddServerSideBlazor();
 
 var app = builder.Build();
 
