@@ -6,6 +6,8 @@ builder.Services.AddServerSideBlazor(options =>
 });
 builder.Services.AddSingleton<ContatoService>();
 builder.Services.AddSignalR();
+builder.Services.AddAntiforgery();
+
 
 var app = builder.Build();
 
