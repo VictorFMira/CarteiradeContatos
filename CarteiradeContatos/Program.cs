@@ -1,8 +1,11 @@
 var builder = WebApplication.CreateBuilder(args);
 
-// Adicione serviços ao contêiner.
-builder.Services.AddRazorComponents();
-builder.Services.AddSingleton<ContatoService>(); // Adicione esta linha
+builder.Services.AddServerSideBlazor(options =>
+{
+    options.DetailedErrors = true;
+});
+builder.Services.AddSingleton<ContatoService>();
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
