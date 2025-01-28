@@ -4,11 +4,10 @@ builder.Services.AddServerSideBlazor(options =>
 {
     options.DetailedErrors = true;
 });
-builder.Services.AddScoped<CustomCircuitHandler>();
 builder.Services.AddSingleton<ContatoService>();
 builder.Services.AddSignalR();
 builder.Services.AddAntiforgery();
-builder.Services.AddScoped<Microsoft.AspNetCore.Components.Server.Circuits.CircuitRegistry>();
+builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
@@ -23,6 +22,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.MapBlazorHub();
+app.MapRazorPages();
 app.MapFallbackToPage("/_Host");
 
 app.Run();
