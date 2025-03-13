@@ -58,9 +58,9 @@ jobs:
         path: ${{ env.Wap_Project_Directory }}\AppPackages
 
     - name: Criar Release
-      uses: victorfmira/action-gh-release@v1
+      uses: softprops/action-gh-release@v1
       with:
-        tag_name: ${{ github.run_id }} # Cria uma tag com o ID da execução
+        tag_name: ${{ github.run_id }} 
         name: Release ${{ github.run_id }}
         body: | 
           Nova release automática.
