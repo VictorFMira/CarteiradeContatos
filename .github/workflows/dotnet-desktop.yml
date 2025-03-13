@@ -60,3 +60,6 @@ jobs:
           prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+
+      - name: Imprimir caminho do projeto
+        run: echo $env:Wap_Project_Path
