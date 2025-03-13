@@ -25,6 +25,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Imprimir caminho do projeto
+        run: echo $env:Wap_Project_Path
+
       - name: Install .NET Core
         uses: actions/setup-dotnet@v4
         with:
@@ -61,5 +64,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
 
-      - name: Imprimir caminho do projeto
-        run: echo $env:Wap_Project_Path
+
