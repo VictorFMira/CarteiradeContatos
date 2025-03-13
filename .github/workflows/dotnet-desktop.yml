@@ -38,7 +38,7 @@ jobs:
       run: dotnet test
 
     - name: Restore the application
-      run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
+      run: msbuild $env:CarteiradeContatos /t:Restore /p:Configuration=$env:Configuration
       env:
         Configuration: ${{ matrix.configuration }}
 
@@ -60,14 +60,12 @@ jobs:
     - name: Criar Release
       uses: softprops/action-gh-release@v1
       with:
+        files: CarteiradeContatos
         tag_name: ${{ github.run_id }} 
         name: Release ${{ github.run_id }}
         body: | 
           Nova release automática.
         draft: false
         prerelease: false
-
-    - name: Publicar pacote
-      run: npm publish
       env:
         NODE_AUTH_TOKEN: ${{ secrets.GH_PAT }}
