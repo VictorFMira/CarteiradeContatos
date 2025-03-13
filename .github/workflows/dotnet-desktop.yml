@@ -7,65 +7,56 @@ on:
     branches: [ "master" ]
 
 jobs:
-  
-
   build:
-
     strategy:
       matrix:
         configuration: [Debug, Release]
 
-    runs-on: windows-latest  
+    runs-on: windows-latest
 
     env:
       Solution_Name: CarteiradeContatos
+      Wap_Project_Directory: ${{ github.workspace }}\CarteiradeContatos.Package 
+      Wap_Project_Path: ${{ github.workspace }}\CarteiradeContatos.Package\CarteiradeContatos.Package.wapproj 
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    - name: Install .NET Core
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0.x
+      - name: Install .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
 
-    - name: Setup MSBuild.exe
-      uses: microsoft/setup-msbuild@v2
+      - name: Setup MSBuild.exe
+        uses: microsoft/setup-msbuild@v2
 
-    - name: Execute unit tests
-      run: dotnet test
+      - name: Execute unit tests
+        run: dotnet test
 
-    - name: Restore the application
-      run: msbuild $env:CarteiradeContatos /t:Restore /p:Configuration=$env:Configuration
-      env:
-        Configuration: ${{ matrix.configuration }}
+      - name: Restore the application
+        run: msbuild $env:Solution_Name /t:Restore /p:Configuration=${{ matrix.configuration }}
 
-    - name: Create the app package
-      run: msbuild $env:Wap_Project_Path /p:Configuration=$env:Configuration /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:PackageCertificateKeyFile=GitHubActionsWorkflow.pfx /p:PackageCertificatePassword=${{ secrets.Pfx_Key }}
-      env:
-        Appx_Bundle: Always
-        Appx_Bundle_Platforms: x86|x64
-        Appx_Package_Build_Mode: StoreUpload
-        Configuration: ${{ matrix.configuration }}
+      - name: Create the app package
+        run: msbuild $env:Wap_Project_Path /p:Configuration=${{ matrix.configuration }} /p:UapAppxPackageBuildMode=StoreUpload /p:AppxBundle=Always /p:PackageCertificateKeyFile=GitHubActionsWorkflow.pfx /p:PackageCertificatePassword=${{ secrets.Pfx_Key }}
 
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: MSIX Package
+          path: ${{ env.Wap_Project_Directory }}\AppPackages
 
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: MSIX Package
-        path: ${{ env.Wap_Project_Directory }}\AppPackages
-
-    - name: Criar Release
-      uses: softprops/action-gh-release@v1
-      with:
-        files: CarteiradeContatos
-        tag_name: ${{ github.run_id }} 
-        name: Release ${{ github.run_id }}
-        body: | 
-          Nova release automática.
-        draft: false
-        prerelease: false
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.GH_PAT }}
+      - name: Criar Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ${{ env.Wap_Project_Directory }}\AppPackages\*.msixbundle 
+          tag_name: ${{ github.run_id }}
+          name: Release ${{ github.run_id }}
+          body: |
+            Nova release automática.
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
