@@ -81,11 +81,13 @@ jobs:
       url: ${{ steps.deploy_to_azure.outputs.webapp_url }}
     permissions:
       id-token: write
+      
       - name: Listar conteúdo do diretório de trabalho
         run: dir ${{ github.workspace }} # Para Windows
 
       - name: Depurar caminho do pacote
         run: echo "Caminho do pacote: ${{ github.workspace }}/CarteiradeContatos.zip"
+        
       - name: Deploy to Azure Web App
         id: deploy_to_azure
         uses: azure/webapps-deploy@v2
