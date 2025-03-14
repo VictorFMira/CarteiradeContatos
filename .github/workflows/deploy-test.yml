@@ -47,7 +47,7 @@ jobs:
           prerelease: false
       
       - name: Echo
-        run: echo "upload_url=${{ github.upload_url }}"
+        run: echo "upload_url=${{ steps.create_release.outputs.upload_url }}"
 
       - name: Zipar artefato
         uses: thedoctor0/zip-release@master
