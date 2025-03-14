@@ -111,7 +111,7 @@ jobs:
           username: ${{secrets.MAIL_USERNAME}}
           password: ${{secrets.MAIL_PASSWORD}}
           subject: Falha no pipeline de CI/CD .NET
-          to: vicctorbm336@hotmail.com
+          to: victorbm336@hotmail.com
           from: ${{secrets.MAIL_USERNAME}}
           body: O pipeline de CI/CD falhou na etapa ${{ github.job }}. Veja os logs para mais detalhes. ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           secure: true
