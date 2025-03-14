@@ -87,7 +87,7 @@ jobs:
           
       - name: Echo
         if: always()
-        run: echo "upload_url=${{ steps.create_release.outputs.upload_url }}"
+        run: echo "${{ github.workspace }}"
 
   notify:
     needs: [build, deploy]
