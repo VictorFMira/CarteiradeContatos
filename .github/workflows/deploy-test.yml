@@ -14,6 +14,7 @@ jobs:
     runs-on: windows-latest
     permissions: 
       contents: write
+      deployments: write
 
     steps:
       - name: Checkout code
@@ -46,16 +47,10 @@ jobs:
           release_name: Release ${{ github.run_id }}
           draft: false
           prerelease: false
-      
-      - name: Fazer upload do artefato
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ github.workspace }}/CarteiradeContatos.zip
-          asset_name: CarteiradeContatos.zip
-          asset_content_type: application/zip
+          
+      - name: Verificar sucesso da criação do release
+        if: steps.create_release.outcome == 'success'
+        run: echo "Criação do release bem-sucedida!"
       
       - name: Echo
         run: echo "upload_url=${{ steps.create_release.outputs.upload_url }}"
@@ -65,6 +60,16 @@ jobs:
         with:
           filename: ${{ github.workspace }}/CarteiradeContatos.zip
           directory: ${{ github.workspace }}/publish
+
+      - name: Fazer upload do artefato
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ github.workspace }}/CarteiradeContatos.zip
+          asset_name: CarteiradeContatos.zip
+          asset_content_type: application/zip
 
   deploy:
     needs: build
