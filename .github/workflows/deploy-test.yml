@@ -91,9 +91,11 @@ jobs:
           package: ${{ github.workspace }}/CarteiradeContatos.zip
           
       - name: Listar conteúdo do diretório de trabalho
+        if: always()
         run: dir ${{ github.workspace }} 
 
       - name: Depurar caminho do pacote
+        if: always()
         run: echo "Caminho do pacote= ${{ github.workspace }}/CarteiradeContatos.zip"
           
   notify:
