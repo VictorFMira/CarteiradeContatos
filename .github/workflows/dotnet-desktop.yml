@@ -16,8 +16,8 @@ jobs:
 
     env:
       Solution_Name: CarteiradeContatos
-      Wap_Project_Directory: ${{ github.workspace }}\CarteiradeContatos.Package
-      Wap_Project_Path: ${{ github.workspace }}.Package\CarteiradeContatos.Package.wapproj 
+      Wap_Project_Directory: ${{ github.workspace }}\WapProjContatos
+      Wap_Project_Path: ${{ github.workspace }}WapProjContatos\WapProjContatos.wapproj 
 
     steps:
       - name: Checkout
