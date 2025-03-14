@@ -25,16 +25,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Definir diretório do projeto
-        run: echo "Wap_Project_Directory=${{ github.workspace }}" >> $GITHUB_ENV
-
-      - name: Upload do pacote
-        uses: actions/upload-artifact@v3
-        with:
-          name: Pacote_MSIX
-          path: ${{ env.Wap_Project_Directory }}/AppPackages/*.msixbundle
-
-
       - name: Install .NET Core
         uses: actions/setup-dotnet@v4
         with:
@@ -58,17 +48,5 @@ jobs:
           name: MSIX Package
           path: ${{ env.Wap_Project_Directory }}\AppPackages
 
-      - name: Criar Release
-        uses: actions/create-release@v1
-        with:
-          files: "${{ env.Wap_Project_Directory }}/AppPackages/*.msixbundle"
-          tag_name: ${{ github.run_id }}
-          name: Release ${{ github.run_id }}
-          body: |
-            Nova release automática.
-          draft: false
-          prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+      
 
