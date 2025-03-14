@@ -80,8 +80,7 @@ jobs:
       name: test
       url: ${{ steps.deploy_to_azure.outputs.webapp_url }}
     permissions:
-      id-token: write
-        
+      id-token: write    
       - name: Deploy to Azure Web App
         id: deploy_to_azure
         uses: azure/webapps-deploy@v2
