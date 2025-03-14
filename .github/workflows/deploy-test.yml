@@ -1,0 +1,92 @@
+name: deploy-test
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Instalar .NET SDK
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '8.0.0' 
+
+      - name: Restaurar dependências
+        run: dotnet restore CarteiradeContatos.sln
+
+      - name: Construir projeto
+        run: dotnet build CarteiradeContatos.sln --configuration Release
+
+      - name: Executar testes unitários
+        run: dotnet test CarteiradeContatos.Tests/CarteiradeContatos.Tests.csproj --configuration Release
+
+      - name: Publicar projeto
+        run: dotnet publish CarteiradeContatos/CarteiradeContatos.csproj -c Release -o ${{ github.workspace }}/publish
+
+      - name: Criar release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.run_id }}
+          release_name: Release ${{ github.run_id }}
+          draft: false
+          prerelease: false
+
+      - name: Zipar artefato
+        uses: thedoctor0/zip-release@master
+        with:
+          filename: ${{ github.workspace }}/CarteiradeContatos.zip
+          directory: ${{ github.workspace }}/publish
+
+      - name: Fazer upload do artefato
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ github.workspace }}/CarteiradeContatos.zip
+          asset_name: CarteiradeContatos.zip
+          asset_content_type: application/zip
+
+  deploy:
+    needs: build
+    runs-on: windows-latest
+    environment:
+      name: test
+      url: ${{ steps.deploy_to_azure.outputs.webapp_url }}
+    permissions:
+      id-token: write
+    steps:
+      - name: Deploy to Azure Web App
+        id: deploy_to_azure
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: '${{ github.workspace }}/SeuProjeto.zip'
+
+  notify:
+    needs: [build, deploy]
+    runs-on: ubuntu-latest
+    if: failure()
+    steps:
+      - name: Enviar notificação de falha
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
+          subject: Falha no pipeline de CI/CD .NET
+          to: vicctorbm336@hotmail.com
+          from: github-actions@exemplo.com
+          body: O pipeline de CI/CD falhou na etapa ${{ github.job }}. Veja os logs para mais detalhes: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          secure: true
