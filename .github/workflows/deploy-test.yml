@@ -84,7 +84,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v2
         with:
-          name: myapp
+          name: CarteiradeContatos.zip
 
       - name: Deploy to Azure Web App
         id: deploy_to_azure
