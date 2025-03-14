@@ -45,6 +45,9 @@ jobs:
           release_name: Release ${{ github.run_id }}
           draft: false
           prerelease: false
+          
+      - run:
+        echo: upload_url
 
       - name: Zipar artefato
         uses: thedoctor0/zip-release@master
