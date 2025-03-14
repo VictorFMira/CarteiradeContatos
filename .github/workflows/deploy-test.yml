@@ -46,8 +46,7 @@ jobs:
           draft: false
           prerelease: false
           
-      - run:
-        echo: upload_url
+      - run: echo ${{ upload_url }}
 
       - name: Zipar artefato
         uses: thedoctor0/zip-release@master
