@@ -94,7 +94,7 @@ jobs:
         run: dir ${{ github.workspace }} 
 
       - name: Depurar caminho do pacote
-        run: echo "Caminho do pacote: ${{ github.workspace }}/CarteiradeContatos.zip"
+        run: echo "Caminho do pacote= ${{ github.workspace }}/CarteiradeContatos.zip"
           
   notify:
     needs: [build, deploy]
