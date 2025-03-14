@@ -28,6 +28,13 @@ jobs:
       - name: Definir diretório do projeto
         run: echo "Wap_Project_Directory=${{ github.workspace }}" >> $GITHUB_ENV
 
+      - name: Upload do pacote
+        uses: actions/upload-artifact@v3
+        with:
+          name: Pacote_MSIX
+          path: ${{ env.Wap_Project_Directory }}/AppPackages/*.msixbundle
+
+
       - name: Install .NET Core
         uses: actions/setup-dotnet@v4
         with:
