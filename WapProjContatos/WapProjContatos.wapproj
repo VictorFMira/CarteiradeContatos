@@ -52,7 +52,7 @@
     <WapProjPath Condition="'$(WapProjPath)'==''">E:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\DesktopBridge</WapProjPath>
   </PropertyGroup>
 
-  <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.props" />
+  <Import Project="E:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\DesktopBridge\Microsoft.DesktopBridge.props" />
 
   <PropertyGroup>
     <ProjectGuid>d6a86c02-eab3-47c1-bf11-c076d28973f1</ProjectGuid>
