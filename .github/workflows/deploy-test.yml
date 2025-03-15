@@ -56,7 +56,7 @@ jobs:
         uses: thedoctor0/zip-release@master
         with:
           filename: ${{ github.workspace }}\CarteiradeContatos.zip
-          directory: ${{ github.workspace }}/publish
+          directory: ${{ github.workspace }}\publish
 
       - name: Fazer upload do artefato
         uses: actions/upload-release-asset@v1
@@ -66,7 +66,7 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ${{ github.workspace }}\CarteiradeContatos.zip
           asset_name: CarteiradeContatos.zip
-          asset_content_type: application/zip
+          asset_content_type: application\zip
           
       - name: Echo
         if: always()
