@@ -55,7 +55,7 @@ jobs:
       - name: Zipar artefato
         uses: thedoctor0/zip-release@master
         with:
-          filename: ${{ github.workspace }}/CarteiradeContatos.zip
+          filename: ${{ github.workspace }}\CarteiradeContatos.zip
           directory: ${{ github.workspace }}/publish
 
       - name: Fazer upload do artefato
@@ -64,7 +64,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ github.workspace }}/CarteiradeContatos.zip
+          asset_path: ${{ github.workspace }}\CarteiradeContatos.zip
           asset_name: CarteiradeContatos.zip
           asset_content_type: application/zip
           
