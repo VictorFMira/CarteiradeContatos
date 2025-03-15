@@ -68,6 +68,10 @@ jobs:
           asset_name: CarteiradeContatos.zip
           asset_content_type: application\zip
           
+      - name: Verificar sucesso da criação do zip
+        if: steps.create_release.outputs.upload_url == 'success'
+        run: echo "Criação do zip bem-sucedida!"
+          
       - name: Echo
         if: always()
         run: echo "${{ github.workspace }}"
