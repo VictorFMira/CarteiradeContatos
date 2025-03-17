@@ -69,11 +69,7 @@ jobs:
       - name: Verificar sucesso da criação do zip
         if: always() || steps.create_release.outputs.upload_url == 'success'
         run: echo "Criação do zip bem-sucedida!"
-          
-      - name: Echo
-        if: always()
-        run: echo "${{ github.workspace }}"
-
+      
   deploy:
     needs: build
     runs-on: windows-latest
@@ -85,7 +81,12 @@ jobs:
       packages: write
       actions: write
       contents: write
-    steps:        
+    steps:   
+    
+      - name: Release 1
+        if: always()
+        run: echo "Tag Release= ${{ needs.create_release.outputs.release_tag }}"
+        
       - name: Download Release Asset
         id: download_release
         uses: actions/github-script@v6
