@@ -13,7 +13,7 @@ jobs:
   build:
     runs-on: windows-latest
     outputs:
-      release_tag: ${{ steps.create_release_action.outputs.tag_name }}
+      release_tag: ${{ github.run_id }}
     permissions: 
       contents: write
       deployments: write
@@ -41,7 +41,7 @@ jobs:
 
       - name: Criar release
         id: create_release
-        uses: actions/create-release@v2
+        uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -69,7 +69,7 @@ jobs:
       - name: Debug - Listar saídas
         run: |
             echo "Saídas da ação create_release:"
-            echo "Tag: ${{ steps.create_release.outputs.tag_name }}"
+            echo "Tag: ${{ github.run_id }}"
             echo "Upload URL: ${{ steps.create_release.outputs.upload_url }}"
           
       - name: Release 1
@@ -99,7 +99,7 @@ jobs:
           script: |
             const fs = require('fs');
             const { owner, repo } = context.repo;
-            const release_tag = '${{ needs.create_release.outputs.release_tag }}';  
+            const release_tag = '${{ github.run_id }}';  
             const asset_name = 'CarteiradeContatos.zip'; 
              const release = await github.rest.repos.getReleaseByTag({
                owner,
