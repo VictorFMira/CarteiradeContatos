@@ -41,7 +41,7 @@ jobs:
 
       - name: Criar release
         id: create_release
-        uses: softprops/action-gh-release@v1
+        uses: actions/create-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
