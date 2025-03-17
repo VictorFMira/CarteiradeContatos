@@ -91,9 +91,10 @@ jobs:
     steps:        
       - name: Download Release Asset
         id: download_release
-        uses: actions/github-script@v1
+        uses: actions/github-script@v6
         with:
           script: |
+            const fs = require('fs');
             const { owner, repo } = context.repo;
             const release_tag = '${{ needs.create_release.outputs.release_tag }}';  
             const asset_name = 'CarteiradeContatos.zip'; 
@@ -127,7 +128,7 @@ jobs:
         with:
           app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: ${{ github.workspace }}\CarteiradeContatos.zip
+          package: ${{ steps.download_release.outputs.asset_path }}
           
   notify:
     needs: [build, deploy]
