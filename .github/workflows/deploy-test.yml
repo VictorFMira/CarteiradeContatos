@@ -87,6 +87,7 @@ jobs:
       id-token: write
       contents: write
       deployments: write
+      packages: write
     steps:
       - name: Deploy to Azure Web App
         id: deploy_to_azure
