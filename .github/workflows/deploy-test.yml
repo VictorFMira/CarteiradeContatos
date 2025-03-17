@@ -113,7 +113,7 @@ jobs:
               headers: {
                 Accept: 'application/octet-stream'
               },
-            });
+             });
             fs.writeFileSync(asset_name, Buffer.from(response.data));
             core.setOutput('asset_path', asset_name);
             
