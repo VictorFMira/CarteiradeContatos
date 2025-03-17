@@ -66,6 +66,10 @@ jobs:
           asset_name: CarteiradeContatos.zip
           asset_content_type: application/zip
           
+      - name: Release 1
+        if: always()
+        run: echo "Tag Release= ${{ needs.create_release.outputs.release_tag }}"
+          
       - name: Verificar sucesso da criação do zip
         if: always() || steps.create_release.outputs.upload_url == 'success'
         run: echo "Criação do zip bem-sucedida!"
@@ -81,12 +85,7 @@ jobs:
       packages: write
       actions: write
       contents: write
-    steps:   
-    
-      - name: Release 1
-        if: always()
-        run: echo "Tag Release= ${{ needs.create_release.outputs.release_tag }}"
-        
+    steps:           
       - name: Download Release Asset
         id: download_release
         uses: actions/github-script@v6
