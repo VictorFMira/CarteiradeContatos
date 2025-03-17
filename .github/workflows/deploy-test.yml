@@ -66,6 +66,12 @@ jobs:
           asset_name: CarteiradeContatos.zip
           asset_content_type: application/zip
           
+      - name: Debug - Listar saídas
+        run: |
+            echo "Saídas da ação create_release:"
+            echo "Tag: ${{ steps.create_release.outputs.tag_name }}"
+            echo "Upload URL: ${{ steps.create_release.outputs.upload_url }}"
+          
       - name: Release 1
         if: always()
         run: echo "Tag Release= ${{ needs.create_release.outputs.release_tag }}"
