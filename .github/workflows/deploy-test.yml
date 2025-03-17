@@ -37,22 +37,18 @@ jobs:
       - name: Publicar projeto
         run: dotnet publish CarteiradeContatos/CarteiradeContatos.csproj -c Release -o ${{ github.workspace }}/publish
 
-      - name: Create release
-        id: create_release_step
-        uses: actions/github-script@v6
+      - name: Criar release
+        id: create_release
+        uses: actions/create-release@v1
+        output:
+          release_tag: ${{ steps.create_release_action.outputs.tag_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          script: |
-            const version = 'v1.0.0'; 
-            const { data: release } = await github.rest.repos.createRelease({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              tag_name: version,
-              name: version,
-              body: 'Release criada automaticamente.',
-              draft: false,
-              prerelease: false,
-            });
-            core.setOutput('release_tag', version);
+          tag_name: ${{ github.run_id }}
+          release_name: Release ${{ github.run_id }}
+          draft: false
+          prerelease: false
           
       - name: Verificar sucesso da criação do release
         if: steps.create_release.outcome == 'success'
