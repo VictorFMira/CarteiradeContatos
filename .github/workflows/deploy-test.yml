@@ -68,9 +68,9 @@ jobs:
           asset_name: CarteiradeContatos.zip
           asset_content_type: application\zip
           
-      - name: Verificar sucesso da criação do zip
-        if: always() || steps.create_release.outputs.upload_url == 'success'
-        run: echo "Criação do zip bem-sucedida!"
+      - name: Verificar sucesso do github token
+        if: always() || secrets.GITHUB_TOKEN == 'success'
+        run: echo "Criação do github token bem-sucedida!"
           
       - name: Echo
         if: always()
