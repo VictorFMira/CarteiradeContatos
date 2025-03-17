@@ -120,7 +120,7 @@ jobs:
             
       - name: Release
         if: always()
-        run: echo "Tag Release= ${{ github.event.release.tag_name }}"
+        run: echo "Tag Release= ${{ needs.create_release.outputs.release_tag }}"
       
       - name: Deploy to Azure Web App
         id: deploy_to_azure
