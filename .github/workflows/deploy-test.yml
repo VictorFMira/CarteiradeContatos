@@ -12,6 +12,8 @@ on:
 jobs:
   build:
     runs-on: windows-latest
+    output:
+      release_tag: ${{ steps.create_release_action.outputs.tag_name }}
     permissions: 
       contents: write
       deployments: write
@@ -40,8 +42,6 @@ jobs:
       - name: Criar release
         id: create_release
         uses: actions/create-release@v1
-        output:
-          release_tag: ${{ steps.create_release_action.outputs.tag_name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
