@@ -88,12 +88,7 @@ jobs:
       packages: write
       actions: write
       contents: write
-    steps:
-    
-       - name: Release
-        if: always()
-        run: echo "Tag Release= ${{ github.event.release.tag_name }}"
-        
+    steps:        
        - name: Download Release Asset
          id: download_release
          uses: actions/github-script@v1
@@ -121,6 +116,10 @@ jobs:
             });
             fs.writeFileSync(asset_name, Buffer.from(response.data));
             core.setOutput('asset_path', asset_name);
+            
+      - name: Release
+        if: always()
+        run: echo "Tag Release= ${{ github.event.release.tag_name }}"
       
       - name: Deploy to Azure Web App
         id: deploy_to_azure
