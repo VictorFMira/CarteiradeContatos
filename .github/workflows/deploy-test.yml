@@ -69,8 +69,7 @@ jobs:
           asset_content_type: application\zip
           
       - name: Verificar sucesso da criação do zip
-        if: always()
-        if: steps.create_release.outputs.upload_url == 'success'
+        if: always() || steps.create_release.outputs.upload_url == 'success'
         run: echo "Criação do zip bem-sucedida!"
           
       - name: Echo
