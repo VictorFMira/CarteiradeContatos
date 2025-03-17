@@ -106,7 +106,7 @@ jobs:
              if (!asset) {
                core.setFailed(`Asset ${asset_name} not found in release ${release_tag}`);
                return;
-            }
+             }
              const response = await github.request({
               method: 'GET',
               url: asset.url,
