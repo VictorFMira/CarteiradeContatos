@@ -85,9 +85,9 @@ jobs:
       url: ${{ steps.deploy_to_azure.outputs.webapp_url }}
     permissions:
       id-token: write
-      contents: write
       deployments: write
       packages: write
+      actions: write
     steps:
       - name: Deploy to Azure Web App
         id: deploy_to_azure
