@@ -20,10 +20,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v1
+        uses: actions/checkout@v4
 
       - name: Instalar .NET SDK
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0' 
 
@@ -126,7 +126,7 @@ jobs:
       
       - name: Deploy to Azure Web App
         id: deploy_to_azure
-        uses: azure/webapps-deploy@v1
+        uses: azure/webapps-deploy@v3
         with:
           app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
@@ -138,7 +138,7 @@ jobs:
     if: failure()
     steps:
       - name: Enviar notificação de falha
-        uses: dawidd6/action-send-mail@v1
+        uses: dawidd6/action-send-mail@v4
         with:
           server_address: smtp.gmail.com
           server_port: 465
