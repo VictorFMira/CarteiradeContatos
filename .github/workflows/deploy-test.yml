@@ -89,6 +89,11 @@ jobs:
       actions: write
       contents: write
     steps:
+    
+       - name: Release
+        if: always()
+        run: echo "Tag Release= ${{ github.event.release.tag_name }}"
+        
        - name: Download Release Asset
          id: download_release
          uses: actions/github-script@v1
@@ -98,10 +103,10 @@ jobs:
              const release_tag = '${github.event.release.tag_name}'; 
              const asset_name = 'CarteiradeContatos.zip'; 
               const release = await github.rest.repos.getReleaseByTag({
-              owner,
-              repo,
-              tag: release_tag,
-            });
+                owner,
+                repo,
+                tag: release_tag,
+              });
              const asset = release.data.assets.find(asset => asset.name === asset_name);
              if (!asset) {
                core.setFailed(`Asset ${asset_name} not found in release ${release_tag}`);
