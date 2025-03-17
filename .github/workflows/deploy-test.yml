@@ -50,15 +50,11 @@ jobs:
           draft: false
           prerelease: false
           
-      - name: Verificar sucesso da criação do release
-        if: steps.create_release.outcome == 'success'
-        run: echo "Criação do release bem-sucedida!"
-
       - name: Zipar artefato
         uses: thedoctor0/zip-release@master
         with:
-          filename: ${{ github.workspace }}\CarteiradeContatos.zip
-          directory: ${{ github.workspace }}\publish
+          filename: ${{ github.workspace }}/CarteiradeContatos.zip
+          directory: ${{ github.workspace }}/publish
 
       - name: Fazer upload do artefato
         uses: actions/upload-release-asset@v1
@@ -66,7 +62,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ github.workspace }}\CarteiradeContatos.zip
+          asset_path: ${{ github.workspace }}/CarteiradeContatos.zip
           asset_name: CarteiradeContatos.zip
           asset_content_type: application/zip
           
@@ -77,7 +73,6 @@ jobs:
       - name: Echo
         if: always()
         run: echo "${{ github.workspace }}"
-
 
   deploy:
     needs: build
