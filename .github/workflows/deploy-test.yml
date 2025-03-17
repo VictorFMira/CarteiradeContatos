@@ -55,8 +55,8 @@ jobs:
       - name: Zipar artefato
         uses: thedoctor0/zip-release@master
         with:
-          filename: ${{ github.workspace }}\CarteiradeContatos.zip
-          directory: ${{ github.workspace }}\publish
+          filename: ${{ github.workspace }}/CarteiradeContatos.zip
+          directory: ${{ github.workspace }}/publish
 
       - name: Fazer upload do artefato
         uses: actions/upload-release-asset@v1
@@ -64,13 +64,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ github.workspace }}\CarteiradeContatos.zip
+          asset_path: ${{ github.workspace }}/CarteiradeContatos.zip
           asset_name: CarteiradeContatos.zip
-          asset_content_type: application\zip
+          asset_content_type: application/zip
           
-      - name: Verificar sucesso do github token
-        if: always() || secrets.GITHUB_TOKEN == 'success'
-        run: echo "Criação do github token bem-sucedida!"
+      - name: Verificar sucesso da criação do zip
+        if: always() || steps.create_release.outputs.upload_url == 'success'
+        run: echo "Criação do zip bem-sucedida!"
           
       - name: Echo
         if: always()
@@ -95,7 +95,7 @@ jobs:
         with:
           app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: ${{ github.workspace }}\CarteiradeContatos.zip
+          package: ${{ github.workspace }}/CarteiradeContatos.zip
           
       - name: Listar conteúdo do diretório de trabalho
         if: always()
@@ -103,7 +103,7 @@ jobs:
 
       - name: Depurar caminho do pacote
         if: always()
-        run: echo "Caminho do pacote= ${{ github.workspace }}\CarteiradeContatos.zip"
+        run: echo "Caminho do pacote= ${{ github.workspace }}/CarteiradeContatos.zip"
           
   notify:
     needs: [build, deploy]
