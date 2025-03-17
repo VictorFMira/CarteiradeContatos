@@ -89,37 +89,37 @@ jobs:
       actions: write
       contents: write
     steps:        
-       - name: Download Release Asset
-         id: download_release
-         uses: actions/github-script@v1
-         with:
-           script: |
-             const { owner, repo } = context.repo;
-             const release_tag = '${github.event.release.tag_name}'; 
-             const asset_name = 'CarteiradeContatos.zip'; 
-              const release = await github.rest.repos.getReleaseByTag({
-                owner,
-                repo,
-                tag: release_tag,
-              });
-             const asset = release.data.assets.find(asset => asset.name === asset_name);
-             if (!asset) {
-               core.setFailed(`Asset ${asset_name} not found in release ${release_tag}`);
-               return;
-             }
-             const response = await github.request({
-              method: 'GET',
-              url: asset.url,
-              headers: {
-                Accept: 'application/octet-stream'
-              },
+      - name: Download Release Asset
+        id: download_release
+        uses: actions/github-script@v1
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const release_tag = '${github.event.release.tag_name}'; 
+            const asset_name = 'CarteiradeContatos.zip'; 
+             const release = await github.rest.repos.getReleaseByTag({
+               owner,
+               repo,
+               tag: release_tag,
              });
-             fs.writeFileSync(asset_name, Buffer.from(response.data));
-             core.setOutput('asset_path', asset_name);
+            const asset = release.data.assets.find(asset => asset.name === asset_name);
+            if (!asset) {
+              core.setFailed(`Asset ${asset_name} not found in release ${release_tag}`);
+              return;
+            }
+            const response = await github.request({
+             method: 'GET',
+             url: asset.url,
+             headers: {
+               Accept: 'application/octet-stream'
+             },
+            });
+            fs.writeFileSync(asset_name, Buffer.from(response.data));
+            core.setOutput('asset_path', asset_name);
             
-       - name: Release
-         if: always()
-         run: echo "Tag Release= ${{ github.event.release.tag_name }}"
+      - name: Release
+        if: always()
+        run: echo "Tag Release= ${{ github.event.release.tag_name }}"
       
       - name: Deploy to Azure Web App
         id: deploy_to_azure
